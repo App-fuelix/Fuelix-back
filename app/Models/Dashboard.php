@@ -50,4 +50,24 @@ class Dashboard extends Model
             'most_visited_station' => $this->most_visited_station,
         ];
     }
+
+    public function refreshDashboard(): void
+    {
+        $user = $this->user;
+        
+        // Recalculer les statistiques
+        $this->total_consumption = $user->transactions()->sum('quantity_liters') ?? 0;
+        $this->total_cost = $user->transactions()
+            ->selectRaw('SUM(quantity_liters * price_per_liter) as total')
+            ->value('total') ?? 0;
+        
+        // Station la plus visitée
+        $this->most_visited_station = $user->transactions()
+            ->selectRaw('station_name, COUNT(*) as count')
+            ->groupBy('station_name')
+            ->orderByDesc('count')
+            ->value('station_name');
+        
+        $this->save();
+    }
 }

@@ -15,7 +15,7 @@ class Vehicle extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'plate_number', 'model', 'fuel_type', 'average_consumption'
+        'user_id', 'plate_number', 'model', 'fuel_type', 'average_consumption'
     ];
 
     protected static function boot()

@@ -15,7 +15,7 @@ class FuelCard extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'card_number', 'balance', 'authorized_products', 'status'
+        'user_id', 'card_number', 'balance', 'authorized_products', 'status'
     ];
 
     protected $casts = [

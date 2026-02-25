@@ -64,3 +64,9 @@ Route::post('/reset-password', function (Request $request) {
 Route::get('/test', function () {
     return response()->json(["ok" => true]);
 });
+use App\Http\Controllers\Api\DashboardController;
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'home']);
+    
+});

@@ -15,8 +15,8 @@ class Transaction extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'date', 'amount', 'quantity_liters', 'price_per_liter',
-        'station_name', 'average_consumption'
+        'user_id', 'fuel_card_id', 'vehicle_id', 'date', 'amount', 'quantity_liters', 
+        'price_per_liter', 'station_name', 'average_consumption'
     ];
 
     protected $casts = [
