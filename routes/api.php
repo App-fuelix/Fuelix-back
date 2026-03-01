@@ -65,8 +65,18 @@ Route::get('/test', function () {
     return response()->json(["ok" => true]);
 });
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\CardController;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'home']);
     
+    // Fuel Card routes
+    Route::prefix('fuel-cards')->group(function () {
+        Route::get('/', [CardController::class, 'index']);
+        Route::get('/show', [CardController::class, 'show']);
+        Route::post('/recharge', [CardController::class, 'recharge']);
+        Route::get('/transactions', [CardController::class, 'transactions']);
+    });
 });
+  
+

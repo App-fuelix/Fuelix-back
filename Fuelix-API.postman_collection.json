@@ -111,7 +111,104 @@
 							"host": ["{{base_url}}"],
 							"path": ["dashboard"]
 						},
-						"description": "Récupère les statistiques du dashboard:\n- AI Insight\n- Consommation totale\n- Coût total\n- Moyenne par véhicule\n- Tendance mensuelle\n- Consommation hebdomadaire"
+						"description": "Récupère les statistiques du dashboard"
+					}
+				}
+			]
+		},
+		{
+			"name": "Fuel Cards",
+			"item": [
+				{
+					"name": "Get My Card",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/fuel-cards/show",
+							"host": ["{{base_url}}"],
+							"path": ["fuel-cards", "show"]
+						},
+						"description": "Affiche la carte carburant principale de l'utilisateur"
+					}
+				},
+				{
+					"name": "List All Cards",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/fuel-cards",
+							"host": ["{{base_url}}"],
+							"path": ["fuel-cards"]
+						},
+						"description": "Liste toutes les cartes de l'utilisateur"
+					}
+				},
+				{
+					"name": "Recharge Card",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 100\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/fuel-cards/recharge",
+							"host": ["{{base_url}}"],
+							"path": ["fuel-cards", "recharge"]
+						},
+						"description": "Recharge la carte avec un montant (1-1000 TND)"
+					}
+				},
+				{
+					"name": "Card Transactions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/fuel-cards/transactions",
+							"host": ["{{base_url}}"],
+							"path": ["fuel-cards", "transactions"]
+						},
+						"description": "Historique des 20 dernières transactions de la carte"
 					}
 				}
 			]
