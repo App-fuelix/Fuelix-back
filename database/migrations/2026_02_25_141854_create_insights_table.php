@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('insights', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('dashboard_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('type');
             $table->text('description');
             $table->dateTime('generated_at');
             $table->timestamps();
-            
-            $table->foreign('dashboard_id')->references('id')->on('dashboards')->onDelete('cascade');
         });
     }
 

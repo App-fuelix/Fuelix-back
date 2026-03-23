@@ -6,12 +6,15 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class,'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class,'logout']);
     Route::get('/me', [AuthController::class,'me']);
+    Route::put('/profile', [AuthController::class, 'updateProfile']);
+    Route::put('/change-password', [AuthController::class, 'changePassword']);
 
 });
 
@@ -76,6 +79,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/show', [CardController::class, 'show']);
         Route::post('/recharge', [CardController::class, 'recharge']);
         Route::get('/transactions', [CardController::class, 'transactions']);
+            Route::get('/history', [CardController::class, 'history']);
     });
 });
   

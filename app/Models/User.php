@@ -59,19 +59,6 @@ class User extends Authenticatable
         $this->notify(new ResetPasswordNotification($token));
     }
 
-    public function dashboard(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
-        return $this->hasOne(Dashboard::class);
-    }
-
-    public function getDashboardAttribute(): Dashboard
-    {
-        return $this->dashboard()->firstOrCreate(
-            ['user_id' => $this->id],
-            ['user_id' => $this->id]
-        );
-    }
-
     public function vehicles(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Vehicle::class);

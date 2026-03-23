@@ -13,7 +13,7 @@ class Insight extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $fillable = ['type', 'description', 'generated_at'];
+    protected $fillable = ['user_id', 'type', 'description', 'generated_at'];
 
     protected $casts = ['generated_at' => 'datetime'];
 
@@ -23,9 +23,9 @@ class Insight extends Model
         static::creating(fn($model) => $model->id ??= (string) Str::uuid());
     }
 
-    public function dashboard(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Dashboard::class);
+        return $this->belongsTo(User::class);
     }
 
     public function generateRecommendation(): string

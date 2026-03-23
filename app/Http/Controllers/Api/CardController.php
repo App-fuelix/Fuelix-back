@@ -127,4 +127,56 @@ class CardController extends Controller
             }),
         ]);
     }
+
+    // Historique complet des transactions de l'utilisateur
+    public function history(Request $request)
+    {
+        $user = $request->user();
+
+        $query = $user->transactions()
+            ->with('vehicle:id,plate_number,model')
+            ->orderBy('date', 'desc');
+
+        // Filtre par mois
+        if ($request->month) {
+            $query->whereMonth('date', $request->month)
+                  ->whereYear('date', $request->year ?? now()->year);
+        }
+
+        // Filtre par station
+        if ($request->station) {
+            $query->where('station_name', 'like', '%' . $request->station . '%');
+        }
+
+        $transactions = $query->get()->map(function ($t) {
+            return [
+                'id'              => $t->id,
+                'date'            => $t->date->format('Y-m-d'),
+                'time'            => $t->date->format('H:i'),
+                'month_label'     => $t->date->format('M Y'),
+                'amount'          => number_format($t->amount, 2),
+                'quantity_liters' => number_format($t->quantity_liters, 1),
+                'price_per_liter' => number_format($t->price_per_liter, 3),
+                'station_name'    => $t->station_name,
+                'vehicle'         => $t->vehicle ? [
+                    'plate_number' => $t->vehicle->plate_number,
+                    'model'        => $t->vehicle->model,
+                ] : null,
+            ];
+        });
+
+        // Grouper par mois
+        $grouped = $transactions->groupBy('month_label');
+
+        // Stats globales
+        $total_spent = $user->transactions()->sum(\DB::raw('quantity_liters * price_per_liter'));
+        $total_liters = $user->transactions()->sum('quantity_liters');
+
+        return response()->json([
+            'transactions' => $grouped,
+            'total_count'  => $transactions->count(),
+            'total_spent'  => number_format($total_spent, 2) . ' TND',
+            'total_liters' => number_format($total_liters, 1) . ' L',
+        ]);
+    }
 }
